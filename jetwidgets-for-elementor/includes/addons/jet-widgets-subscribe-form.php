@@ -1219,9 +1219,7 @@ class Jet_Widgets_Subscribe_Form extends Jet_Widgets_Base {
 			'redirect_url' => esc_url( $module_settings['redirect_url'] ),
 		);
 
-		$settings = json_encode( $settings );
-
-		return htmlspecialchars( $settings );
+		return wp_json_encode( $settings );
 	}
 
 	protected function render() {

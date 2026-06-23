@@ -3,21 +3,24 @@
  * Pricing table action button
  */
 
+$settings  = $this->get_settings_for_display();
+$size      = $this->sanitize_button_size( isset( $settings['button_size'] ) ? $settings['button_size'] : null );
+$position  = $this->sanitize_button_icon_position( isset( $settings['button_icon_position'] ) ? $settings['button_icon_position'] : null );
+$icon      = isset( $settings['add_button_icon'] ) ? $settings['add_button_icon'] : '';
+$button_url = isset( $settings['button_url'] ) ? $settings['button_url'] : '';
+
 $this->add_render_attribute( 'button', array(
 	'class' => array(
 		'elementor-button',
 		'elementor-size-md',
 		'pricing-table-button',
-		'button-' . $this->get_settings( 'button_size' ) . '-size',
+		'button-' . $size . '-size',
 	),
-	'href' => esc_url( $this->get_settings( 'button_url' ) ),
+	'href' => esc_url( $button_url ),
 ) );
 
 ?>
-<a <?php echo jet_widgets_tools()->esc_attr( $this->get_render_attribute_string( 'button' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php
-
-	$position = $this->get_settings( 'button_icon_position' );
-	$icon     = $this->get_settings( 'add_button_icon' );
+<a <?php $this->print_render_attribute_string( 'button' ); ?>><?php
 
 	if ( $icon && 'left' === $position ) {
 		$this->_render_icon( 'button_icon', '<span class="jet-widgets-icon button-icon">%s</span>' );

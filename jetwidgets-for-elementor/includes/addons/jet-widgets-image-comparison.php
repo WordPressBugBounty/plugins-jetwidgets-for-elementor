@@ -1499,8 +1499,6 @@ class Jet_Widgets_Image_Comparison extends Jet_Widgets_Base {
 			$instance_settings['fade'] = true;
 		}
 
-		$instance_settings = json_encode( $instance_settings );
-
-		return sprintf( 'data-settings=\'%1$s\'', $instance_settings );
+		return wp_json_encode( $instance_settings );
 	}
 }

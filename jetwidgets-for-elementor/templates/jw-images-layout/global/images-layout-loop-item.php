@@ -26,8 +26,7 @@ if ( 'lightbox' === $link_type ) {
 	$this->add_render_attribute( $link_instance, 'data-elementor-lightbox-slideshow', $this->get_id()  );
 } else {
 
-	$target = $this->__loop_item( array( 'item_target' ), '%s' );
-	$target = ! empty( $target ) ? $target : '_self';
+	$target = $this->sanitize_item_target( $this->__loop_item( array( 'item_target' ), '%s' ) );
 
 	$this->add_render_attribute(
 		$link_instance,
@@ -45,7 +44,7 @@ $this->item_counter++;
 ?>
 <div class="jw-images-layout__item">
 	<div class="jw-images-layout__inner">
-		<a <?php echo jet_widgets_tools()->esc_attr( $this->get_render_attribute_string( $link_instance ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+		<a <?php $this->print_render_attribute_string( $link_instance ); ?>>
 			<div class="jw-images-layout__image">
 				<?php
 					if ( 'justify' === $settings['layout_type'] ) {

@@ -21,6 +21,32 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class Jet_Widgets_Images_Layout extends Jet_Widgets_Base {
 
+	protected function get_item_target_options() {
+		return array(
+			'_self'  => esc_html__( 'Same Window', 'jetwidgets-for-elementor' ),
+			'_blank' => esc_html__( 'New Window', 'jetwidgets-for-elementor' ),
+		);
+	}
+
+	protected function get_default_item_target() {
+		return '_self';
+	}
+
+	protected function sanitize_item_target( $target = null ) {
+		$allowed_targets = $this->get_item_target_options();
+		$default_target  = $this->get_default_item_target();
+
+		if ( ! is_string( $target ) || '' === $target ) {
+			return $default_target;
+		}
+
+		if ( ! isset( $allowed_targets[ $target ] ) ) {
+			return $default_target;
+		}
+
+		return $target;
+	}
+
 	public function get_name() {
 		return 'jw-images-layout';
 	}
@@ -873,9 +899,7 @@ class Jet_Widgets_Images_Layout extends Jet_Widgets_Base {
 			'justifyHeight' => absint( $module_settings['justify_height'] ),
 		);
 
-		$settings = json_encode( $settings );
-
-		return sprintf( 'data-settings=\'%1$s\'', $settings );
+		return wp_json_encode( $settings );
 	}
 
 	/**

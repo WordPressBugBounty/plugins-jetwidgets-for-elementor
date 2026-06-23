@@ -3,10 +3,11 @@
  * Subscribe Form main template
  */
 
-$submit_button_text = $this->get_settings( 'submit_button_text' );
-$submit_placeholder = $this->get_settings( 'submit_placeholder' );
-$layout             = $this->get_settings( 'layout' );
-$use_icon           = $this->get_settings( 'add_button_icon' );
+$settings           = $this->get_settings_for_display();
+$submit_button_text = isset( $settings['submit_button_text'] ) ? $settings['submit_button_text'] : '';
+$submit_placeholder = isset( $settings['submit_placeholder'] ) ? sanitize_text_field( $settings['submit_placeholder'] ) : '';
+$layout             = isset( $settings['layout'] ) ? $settings['layout'] : '';
+$use_icon           = isset( $settings['add_button_icon'] ) ? $settings['add_button_icon'] : '';
 
 $this->add_render_attribute( 'main-container', 'class', array(
 	'jw-subscribe-form',
@@ -17,7 +18,7 @@ $this->add_render_attribute( 'main-container', 'data-settings', $this->generate_
 
 $instance_data = apply_filters( 'jet-widgets/subscribe-form/input-instance-data', array(), $this );
 
-$instance_data = json_encode( $instance_data );
+$instance_data = wp_json_encode( $instance_data );
 
 $this->add_render_attribute( 'form-input',
 	array(
@@ -26,7 +27,7 @@ $this->add_render_attribute( 'form-input',
 		'name'               => 'jw-subscribe-mail',
 		'value'              => '',
 		'placeholder'        => $submit_placeholder,
-		'data-instance-data' => htmlspecialchars( $instance_data ),
+		'data-instance-data' => $instance_data,
 	)
 );
 
@@ -37,10 +38,10 @@ if ( filter_var( $use_icon, FILTER_VALIDATE_BOOLEAN ) ) {
 }
 
 ?>
-<div <?php echo jet_widgets_tools()->esc_attr( $this->get_render_attribute_string( 'main-container' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div <?php $this->print_render_attribute_string( 'main-container' ); ?>>
 	<form method="POST" action="#" class="jw-subscribe-form__form">
 		<div class="jw-subscribe-form__input-group">
-			<input <?php echo jet_widgets_tools()->esc_attr( $this->get_render_attribute_string( 'form-input' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+			<input <?php $this->print_render_attribute_string( 'form-input' ); ?>>
 			<?php echo sprintf( '<a class="jw-subscribe-form__submit elementor-button elementor-size-md" href="#">%s<span class="jw-subscribe-form__submit-text">%s</span></a>', $icon_html, wp_kses_post( $submit_button_text ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 		</div>
 		<div class="jw-subscribe-form__message"><div class="jw-subscribe-form__message-inner"><span></span></div></div>

@@ -7,8 +7,9 @@ $title_tag     = $this->__get_html( 'title_html_tag', '%s' );
 $title_tag     = jet_widgets_tools()->validate_html_tag( $title_tag );
 $sub_title_tag = $this->__get_html( 'sub_title_html_tag', '%s' );
 $sub_title_tag = jet_widgets_tools()->validate_html_tag( $sub_title_tag );
+$animation_effect = $this->sanitize_animation_effect( $this->get_settings_for_display( 'animation_effect' ) );
 ?>
-<div class="jw-animated-box <?php $this->__html( 'animation_effect', '%s' ); ?>">
+<div class="jw-animated-box <?php echo esc_attr( $animation_effect ); ?>">
 	<div class="jw-animated-box__front">
 		<div class="jw-animated-box__overlay"></div>
 		<div class="jw-animated-box__inner">

@@ -37,6 +37,56 @@ class Jet_Widgets_Animated_Box extends Jet_Widgets_Base {
 		return array( 'jet-widgets' );
 	}
 
+	protected function get_animation_effect_options() {
+		return array(
+			'jw-box-effect-1' => esc_html__( 'Flip Horizontal', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-2' => esc_html__( 'Flip Vertical', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-3' => esc_html__( 'Fall Up', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-4' => esc_html__( 'Fall Right', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-5' => esc_html__( 'Slide Down', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-6' => esc_html__( 'Slide Right', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-7' => esc_html__( 'Flip Horizontal 3D', 'jetwidgets-for-elementor' ),
+			'jw-box-effect-8' => esc_html__( 'Flip Vertical 3D', 'jetwidgets-for-elementor' ),
+		);
+	}
+
+	protected function get_default_animation_effect() {
+		return 'jw-box-effect-1';
+	}
+
+	protected function sanitize_animation_effect( $effect = null ) {
+		$allowed_effects = $this->get_animation_effect_options();
+		$default_effect  = $this->get_default_animation_effect();
+
+		if ( ! is_string( $effect ) || ! isset( $allowed_effects[ $effect ] ) ) {
+			return $default_effect;
+		}
+
+		return $effect;
+	}
+
+	protected function get_button_icon_position_options() {
+		return array(
+			'before' => esc_html__( 'Before Text', 'jetwidgets-for-elementor' ),
+			'after'  => esc_html__( 'After Text', 'jetwidgets-for-elementor' ),
+		);
+	}
+
+	protected function get_default_button_icon_position() {
+		return 'after';
+	}
+
+	protected function sanitize_button_icon_position( $position = null ) {
+		$allowed_positions = $this->get_button_icon_position_options();
+		$default_position  = $this->get_default_button_icon_position();
+
+		if ( ! is_string( $position ) || ! isset( $allowed_positions[ $position ] ) ) {
+			return $default_position;
+		}
+
+		return $position;
+	}
+
 	protected function register_controls() {
 
 		$css_scheme = apply_filters(
@@ -195,17 +245,8 @@ class Jet_Widgets_Animated_Box extends Jet_Widgets_Base {
 			array(
 				'label'   => esc_html__( 'Animation Effect', 'jetwidgets-for-elementor' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'jw-box-effect-1',
-				'options' => array(
-					'jw-box-effect-1'  => esc_html__( 'Flip Horizontal', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-2'  => esc_html__( 'Flip Vertical', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-3'  => esc_html__( 'Fall Up', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-4'  => esc_html__( 'Fall Right', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-5'  => esc_html__( 'Slide Down', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-6'  => esc_html__( 'Slide Right', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-7'  => esc_html__( 'Flip Horizontal 3D', 'jetwidgets-for-elementor' ),
-					'jw-box-effect-8'  => esc_html__( 'Flip Vertical 3D', 'jetwidgets-for-elementor' ),
-				),
+				'default' => $this->get_default_animation_effect(),
+				'options' => $this->get_animation_effect_options(),
 			)
 		);
 
@@ -1447,11 +1488,8 @@ class Jet_Widgets_Animated_Box extends Jet_Widgets_Base {
 			array(
 				'label'   => esc_html__( 'Icon Position', 'jetwidgets-for-elementor' ),
 				'type'    => Controls_Manager::SELECT,
-				'options' => array(
-					'before'  => esc_html__( 'Before Text', 'jetwidgets-for-elementor' ),
-					'after' => esc_html__( 'After Text', 'jetwidgets-for-elementor' ),
-				),
-				'default'     => 'after',
+				'options' => $this->get_button_icon_position_options(),
+				'default'     => $this->get_default_button_icon_position(),
 				'render_type' => 'template',
 				'condition' => array(
 					'add_button_icon' => 'yes',

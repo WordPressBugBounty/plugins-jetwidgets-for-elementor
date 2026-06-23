@@ -12,4 +12,4 @@ $class_array[] = 'elementor-slick-slider';
 $classes = implode( ' ', $class_array );
 
 ?>
-<div class="<?php echo esc_attr( $classes ); ?>" <?php echo jet_widgets_tools()->esc_attr( $data_settings ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>>
+<div class="<?php echo esc_attr( $classes ); ?>" data-settings="<?php echo esc_attr( $data_settings ); ?>">

@@ -20,6 +20,50 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
 class Jet_Widgets_Pricing_Table extends Jet_Widgets_Base {
 
+	protected function get_button_size_options() {
+		return array(
+			'auto' => esc_html__( 'auto', 'jetwidgets-for-elementor' ),
+			'full' => esc_html__( 'full', 'jetwidgets-for-elementor' ),
+		);
+	}
+
+	protected function get_default_button_size() {
+		return 'auto';
+	}
+
+	protected function sanitize_button_size( $size = null ) {
+		$allowed_sizes = $this->get_button_size_options();
+		$default_size  = $this->get_default_button_size();
+
+		if ( ! is_string( $size ) || ! isset( $allowed_sizes[ $size ] ) ) {
+			return $default_size;
+		}
+
+		return $size;
+	}
+
+	protected function get_button_icon_position_options() {
+		return array(
+			'left'  => esc_html__( 'Before Text', 'jetwidgets-for-elementor' ),
+			'right' => esc_html__( 'After Text', 'jetwidgets-for-elementor' ),
+		);
+	}
+
+	protected function get_default_button_icon_position() {
+		return 'left';
+	}
+
+	protected function sanitize_button_icon_position( $position = null ) {
+		$allowed_positions = $this->get_button_icon_position_options();
+		$default_position  = $this->get_default_button_icon_position();
+
+		if ( ! is_string( $position ) || ! isset( $allowed_positions[ $position ] ) ) {
+			return $default_position;
+		}
+
+		return $position;
+	}
+
 	public function get_name() {
 		return 'jw-pricing-table';
 	}
@@ -1466,11 +1510,8 @@ class Jet_Widgets_Pricing_Table extends Jet_Widgets_Base {
 			array(
 				'label'   => esc_html__( 'Size', 'jetwidgets-for-elementor' ),
 				'type'    => Controls_Manager::SELECT,
-				'default' => 'auto',
-				'options' => array(
-					'auto' => esc_html__( 'auto', 'jetwidgets-for-elementor' ),
-					'full'  => esc_html__( 'full', 'jetwidgets-for-elementor' ),
-				),
+				'default' => $this->get_default_button_size(),
+				'options' => $this->get_button_size_options(),
 			)
 		);
 
@@ -1509,11 +1550,8 @@ class Jet_Widgets_Pricing_Table extends Jet_Widgets_Base {
 			array(
 				'label'   => esc_html__( 'Icon Position', 'jetwidgets-for-elementor' ),
 				'type'    => Controls_Manager::SELECT,
-				'options' => array(
-					'left'  => esc_html__( 'Before Text', 'jetwidgets-for-elementor' ),
-					'right' => esc_html__( 'After Text', 'jetwidgets-for-elementor' ),
-				),
-				'default'     => 'left',
+				'options' => $this->get_button_icon_position_options(),
+				'default'     => $this->get_default_button_icon_position(),
 				'render_type' => 'template',
 				'condition' => array(
 					'add_button_icon' => 'yes',

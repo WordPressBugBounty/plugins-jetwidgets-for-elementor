@@ -3,9 +3,10 @@
  * Animated box action button
  */
 
-$position = $this->get_settings( 'button_icon_position' );
-$use_icon = $this->get_settings( 'add_button_icon' );
-$button_url = $this->get_settings( 'back_side_button_link' );
+$settings   = $this->get_settings_for_display();
+$position   = $this->sanitize_button_icon_position( isset( $settings['button_icon_position'] ) ? $settings['button_icon_position'] : null );
+$use_icon   = isset( $settings['add_button_icon'] ) ? $settings['add_button_icon'] : '';
+$button_url = isset( $settings['back_side_button_link'] ) ? $settings['back_side_button_link'] : '';
 
 if ( empty( $button_url ) ) {
 	return false;
@@ -38,7 +39,7 @@ if ( is_array( $button_url ) ) {
 }
 
 ?>
-<a <?php echo jet_widgets_tools()->esc_attr( $this->get_render_attribute_string( 'url' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?>><?php
+<a <?php $this->print_render_attribute_string( 'url' ); ?>><?php
 	echo $this->__html( 'back_side_button_text', '<span class="jw-animated-box__button-text">%s</span>' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
 	if ( filter_var( $use_icon, FILTER_VALIDATE_BOOLEAN ) ) {
